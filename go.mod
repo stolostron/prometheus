@@ -33,7 +33,7 @@ require (
 	github.com/hashicorp/consul/api v1.8.1
 	github.com/hetznercloud/hcloud-go v1.24.0
 	github.com/influxdata/influxdb v1.8.4
-	github.com/json-iterator/go v1.1.10
+	github.com/json-iterator/go v1.1.11
 	github.com/miekg/dns v1.1.41
 	github.com/moby/term v0.0.0-20201216013528-df9cb8a40635 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
@@ -48,7 +48,7 @@ require (
 	github.com/prometheus/alertmanager v0.21.0
 	github.com/prometheus/client_golang v1.10.0
 	github.com/prometheus/client_model v0.2.0
-	github.com/prometheus/common v0.20.0
+	github.com/prometheus/common v0.26.0
 	github.com/prometheus/exporter-toolkit v0.5.1
 	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.7.0.20210223165440-c65ae3540d44
 	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749
@@ -94,6 +94,7 @@ require (
 	github.com/fatih/color v1.9.0 // indirect
 	github.com/form3tech-oss/jwt-go v3.2.2+incompatible // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/go-kit/log v0.1.0 // indirect
 	github.com/go-openapi/analysis v0.20.0 // indirect
 	github.com/go-openapi/errors v0.19.9 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
@@ -154,6 +155,8 @@ require (
 replace (
 	// fix CVE-2022-24450
 	github.com/nats-io/nats-server/v2 => github.com/nats-io/nats-server/v2 v2.7.2
+	// fix CVE-2022-21698
+	github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.11.1
 	k8s.io/klog => github.com/simonpasquier/klog-gokit v0.3.0
 	k8s.io/klog/v2 => github.com/simonpasquier/klog-gokit/v2 v2.0.1
 )
