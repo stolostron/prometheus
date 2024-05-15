@@ -202,11 +202,7 @@ common-unused:
 .PHONY: common-build
 common-build: promu
 	@echo ">> building binaries"
-<<<<<<< HEAD
-	GO111MODULE=$(GO111MODULE) $(PROMU) build -v --cgo --prefix $(PREFIX) $(PROMU_BINARIES)
-=======
 	$(PROMU) build --prefix $(PREFIX) $(PROMU_BINARIES)
->>>>>>> refs/tags/v2.51.2
 
 .PHONY: common-tarball
 common-tarball: promu
