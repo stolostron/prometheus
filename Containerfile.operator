@@ -6,7 +6,8 @@ FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_1.21 AS bui
 WORKDIR /workspace
 COPY . .
 
-RUN go install -mod=mod github.com/prometheus/promu@v0.17.0 && go mod vendor && make common-build
+RUN cd promu && go install .
+RUN go mod vendor && make common-build
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
