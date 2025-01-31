@@ -7,7 +7,7 @@ WORKDIR /workspace
 COPY . .
 
 RUN cd promu && go install .
-RUN go mod vendor && make common-build
+RUN make common-build
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
