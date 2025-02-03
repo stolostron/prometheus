@@ -6,7 +6,7 @@ FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_1.21 AS bui
 WORKDIR /workspace
 COPY . .
 
-RUN cd promu && go build -mod=readonly -o /usr/bin/promu
+RUN cd promu && go build -mod=readonly -o /cachi2/output/deps/gomod/bin/promu
 
 WORKDIR /workspace
 RUN make common-build
