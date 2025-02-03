@@ -11,7 +11,7 @@ RUN cd promu && go build -mod=mod -o /cachi2/output/deps/gomod/bin/promu
 WORKDIR /workspace
 RUN go mod vendor && make common-build
 
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 COPY --from=builder /workspace/prometheus        /bin/prometheus
 COPY --from=builder /workspace/promtool          /bin/promtool
