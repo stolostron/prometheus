@@ -1,14 +1,17 @@
 # Copyright Contributors to the Open Cluster Management project
 # Licensed under the Apache License 2.0
 
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_8_1.21 AS builder
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.21 AS builder
 
 WORKDIR /workspace
 COPY . .
 
-RUN go install -mod=mod github.com/prometheus/promu@v0.17.0 && go mod vendor && make common-build
+RUN cd promu && go build -mod=mod -o /cachi2/output/deps/gomod/bin/promu
 
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+WORKDIR /workspace
+RUN go mod vendor && make common-build
+
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 COPY --from=builder /workspace/prometheus        /bin/prometheus
 COPY --from=builder /workspace/promtool          /bin/promtool
@@ -33,3 +36,13 @@ CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
              "--storage.tsdb.path=/prometheus", \
              "--web.console.libraries=/usr/share/prometheus/console_libraries", \
              "--web.console.templates=/usr/share/prometheus/consoles" ]
+
+LABEL com.redhat.component="prometheus" \
+  name="prometheus" \
+  summary="prometheus" \
+  io.openshift.expose-services="" \
+  io.openshift.tags="data,images" \
+  io.k8s.display-name="prometheus" \
+  maintainer="" \
+  description="prometheus" \
+  io.k8s.description="prometheus"
