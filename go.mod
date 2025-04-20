@@ -9,7 +9,7 @@ require (
 	github.com/Azure/go-autorest/autorest/to v0.4.0 // indirect
 	github.com/Azure/go-autorest/autorest/validation v0.3.1 // indirect
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
-	github.com/alecthomas/units v0.0.0-20210208195552-ff826a37aa15
+	github.com/alecthomas/units 0f3dac36c52b
 	github.com/aws/aws-sdk-go v1.38.60
 	github.com/cespare/xxhash/v2 v2.1.1
 	github.com/containerd/containerd v1.5.4 // indirect
