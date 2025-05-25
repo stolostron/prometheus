@@ -27,7 +27,7 @@ require (
 	github.com/go-zookeeper/zk v1.0.2
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/snappy v0.0.3
-	github.com/google/pprof v0.0.0-20210609004039-a478d1d731e9
+	github.com/google/pprof c0086092b71a
 	github.com/gophercloud/gophercloud v0.18.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/hashicorp/consul/api v1.8.1
