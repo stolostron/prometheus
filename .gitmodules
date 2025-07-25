@@ -1,0 +1,3 @@
+[submodule "promu"]
+	path = promu
+	url = ssh://git@github.com/prometheus/promu
