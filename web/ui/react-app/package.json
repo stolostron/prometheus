@@ -36,7 +36,7 @@
     "react": "^16.7.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.7.0",
-    "react-resize-detector": "^5.0.7",
+    "react-resize-detector": "^7.0.0",
     "react-scripts": "3.4.4",
     "react-test-renderer": "^16.9.0",
     "reactstrap": "^8.9.0",
