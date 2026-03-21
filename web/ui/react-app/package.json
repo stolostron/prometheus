@@ -24,7 +24,7 @@
     "bootstrap": "^4.6.0",
     "codemirror-promql": "^0.16.0",
     "css.escape": "^1.5.1",
-    "downshift": "^3.4.8",
+    "downshift": "^4.0.0",
     "enzyme-to-json": "^3.4.3",
     "i": "^0.3.6",
     "jquery": "^3.5.1",
