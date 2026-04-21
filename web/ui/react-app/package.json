@@ -44,7 +44,7 @@
     "sass": "1.32.10",
     "tempusdominus-bootstrap-4": "^5.1.2",
     "tempusdominus-core": "^5.0.3",
-    "typescript": "^3.3.3",
+    "typescript": "^5.0.0",
     "use-media": "^1.4.0"
   },
   "scripts": {
