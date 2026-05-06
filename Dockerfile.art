@@ -1,0 +1,49 @@
+# Copyright Contributors to the Open Cluster Management project
+# Licensed under the Apache License 2.0
+
+FROM registry-proxy.engineering.redhat.com/rh-osbs/openshift-golang-builder:v1.25.8 AS builder
+
+WORKDIR /workspace
+COPY . .
+
+RUN cd promu && go build -mod=mod -o /cachi2/output/deps/gomod/bin/promu
+
+WORKDIR /workspace
+# adding the cgo flag here to not break the architecture CI builds
+RUN go mod vendor && \
+  export PREBUILT_ASSETS_STATIC_DIR=web/ui && \
+  CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime /cachi2/output/deps/gomod/bin/promu build -v --cgo --prefix ./
+
+FROM registry-proxy.engineering.redhat.com/ubi9/ubi-minimal:latest
+
+COPY --from=builder /workspace/prometheus        /bin/prometheus
+COPY --from=builder /workspace/promtool          /bin/promtool
+COPY documentation/examples/prometheus.yml  /etc/prometheus/prometheus.yml
+
+COPY LICENSE                                /LICENSE
+COPY NOTICE                                 /NOTICE
+
+RUN ln -s /usr/share/prometheus/console_libraries /usr/share/prometheus/consoles/ /etc/prometheus/
+RUN mkdir -p /prometheus && \
+    chown -R nobody:nobody etc/prometheus /prometheus
+
+USER       1001
+EXPOSE     9090
+VOLUME     [ "/prometheus" ]
+WORKDIR    /prometheus
+ENTRYPOINT [ "/bin/prometheus" ]
+CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
+             "--storage.tsdb.path=/prometheus", \
+             "--web.console.libraries=/usr/share/prometheus/console_libraries", \
+             "--web.console.templates=/usr/share/prometheus/consoles" ]
+
+LABEL com.redhat.component="prometheus" \
+  name="rhacm2/prometheus-rhel9" \
+  cpe="cpe:/a:redhat:acm:2.16::el9" \
+  summary="prometheus" \
+  io.openshift.expose-services="" \
+  io.openshift.tags="data,images" \
+  io.k8s.display-name="prometheus" \
+  maintainer="" \
+  description="prometheus" \
+  io.k8s.description="prometheus"
