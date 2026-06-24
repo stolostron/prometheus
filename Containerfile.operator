@@ -6,13 +6,13 @@ FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.25 AS bui
 WORKDIR /workspace
 COPY . .
 
-RUN cd promu && go build -mod=mod -o /cachi2/output/deps/gomod/bin/promu
+RUN cd promu && CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -mod=mod -o /cachi2/output/deps/gomod/bin/promu
 
 WORKDIR /workspace
 # adding the cgo flag here to not break the architecture CI builds
 RUN go mod vendor && \
   export PREBUILT_ASSETS_STATIC_DIR=web/ui && \
-  /cachi2/output/deps/gomod/bin/promu build -v --cgo --prefix ./
+  CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime /cachi2/output/deps/gomod/bin/promu build -v --cgo --prefix ./
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
