@@ -860,7 +860,7 @@ scrape_configs:
 				if err != nil {
 					return false
 				}
-				if compactions < 99999 {
+				if compactions < 3 {
 					return false
 				}
 
