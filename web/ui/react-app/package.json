@@ -33,7 +33,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
     "popper.js": "^1.14.3",
-    "react": "^16.7.0",
+    "react": "^18.0.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.7.0",
     "react-resize-detector": "^5.0.7",
