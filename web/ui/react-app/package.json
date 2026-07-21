@@ -38,7 +38,7 @@
     "react-dom": "^16.7.0",
     "react-resize-detector": "^5.0.7",
     "react-scripts": "3.4.4",
-    "react-test-renderer": "^16.9.0",
+    "react-test-renderer": "^17.0.0",
     "reactstrap": "^8.9.0",
     "sanitize-html": "^2.3.3",
     "sass": "1.32.10",
