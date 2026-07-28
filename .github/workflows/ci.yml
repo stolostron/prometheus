@@ -183,7 +183,7 @@ jobs:
           enable_npm: false
       # NOTE: Those tests are based on https://github.com/prometheus/compliance and
       # are executed against the ./cmd/prometheus main package.
-      - run: go test -v --tags=compliance ./compliance/...
+      - run: cd compliance && go test -v --tags=compliance ./...
 
   build:
     name: Build Prometheus for common architectures
