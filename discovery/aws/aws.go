@@ -43,10 +43,12 @@ type Role string
 
 // The valid options for Role.
 const (
-	RoleEC2       Role = "ec2"
-	RoleECS       Role = "ecs"
-	RoleLightsail Role = "lightsail"
-	RoleMSK       Role = "msk"
+	RoleEC2         Role = "ec2"
+	RoleECS         Role = "ecs"
+	RoleElasticache Role = "elasticache"
+	RoleLightsail   Role = "lightsail"
+	RoleMSK         Role = "msk"
+	RoleRDS         Role = "rds"
 )
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
@@ -55,7 +57,7 @@ func (c *Role) UnmarshalYAML(unmarshal func(any) error) error {
 		return err
 	}
 	switch *c {
-	case RoleEC2, RoleECS, RoleLightsail, RoleMSK:
+	case RoleEC2, RoleECS, RoleElasticache, RoleLightsail, RoleMSK, RoleRDS:
 		return nil
 	default:
 		return fmt.Errorf("unknown AWS SD role %q", *c)
@@ -64,6 +66,12 @@ func (c *Role) UnmarshalYAML(unmarshal func(any) error) error {
 
 func (c Role) String() string {
 	return string(c)
+}
+
+// Filter is the configuration for filtering AWS resources.
+type Filter struct {
+	Name   string   `yaml:"name"`
+	Values []string `yaml:"values"`
 }
 
 // SDConfig is the configuration for AWS service discovery.
@@ -75,21 +83,24 @@ type SDConfig struct {
 	SecretKey        config.Secret           `yaml:"secret_key,omitempty"`
 	Profile          string                  `yaml:"profile,omitempty"`
 	RoleARN          string                  `yaml:"role_arn,omitempty"`
+	ExternalID       string                  `yaml:"external_id,omitempty"`
 	RefreshInterval  model.Duration          `yaml:"refresh_interval,omitempty"`
 	Port             int                     `yaml:"port,omitempty"`
 	HTTPClientConfig config.HTTPClientConfig `yaml:",inline"`
 
-	// ec2 specific
-	Filters []*EC2Filter `yaml:"filters,omitempty"`
+	// ec2, rds specific
+	Filters []*Filter `yaml:"filters,omitempty"`
 
 	// ecs, msk specific
 	Clusters []string `yaml:"clusters,omitempty"`
 
 	// Embedded sub-configs (internal use only, not serialized)
-	*EC2SDConfig       `yaml:"-"`
-	*ECSSDConfig       `yaml:"-"`
-	*LightsailSDConfig `yaml:"-"`
-	*MSKSDConfig       `yaml:"-"`
+	*EC2SDConfig         `yaml:"-"`
+	*ECSSDConfig         `yaml:"-"`
+	*ElasticacheSDConfig `yaml:"-"`
+	*LightsailSDConfig   `yaml:"-"`
+	*MSKSDConfig         `yaml:"-"`
+	*RDSSDConfig         `yaml:"-"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface for SDConfig.
@@ -132,6 +143,9 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(any) error) error {
 		if c.RoleARN != "" {
 			c.EC2SDConfig.RoleARN = c.RoleARN
 		}
+		if c.ExternalID != "" {
+			c.EC2SDConfig.ExternalID = c.ExternalID
+		}
 		if c.Port != 0 {
 			c.EC2SDConfig.Port = c.Port
 		}
@@ -163,6 +177,9 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(any) error) error {
 		if c.RoleARN != "" {
 			c.ECSSDConfig.RoleARN = c.RoleARN
 		}
+		if c.ExternalID != "" {
+			c.ECSSDConfig.ExternalID = c.ExternalID
+		}
 		if c.Port != 0 {
 			c.ECSSDConfig.Port = c.Port
 		}
@@ -171,6 +188,40 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(any) error) error {
 		}
 		if c.Clusters != nil {
 			c.ECSSDConfig.Clusters = c.Clusters
+		}
+	case RoleElasticache:
+		if c.ElasticacheSDConfig == nil {
+			elasticacheConfig := DefaultElasticacheSDConfig
+			c.ElasticacheSDConfig = &elasticacheConfig
+		}
+		c.ElasticacheSDConfig.HTTPClientConfig = c.HTTPClientConfig
+		c.ElasticacheSDConfig.Region = c.Region
+		if c.Endpoint != "" {
+			c.ElasticacheSDConfig.Endpoint = c.Endpoint
+		}
+		if c.AccessKey != "" {
+			c.ElasticacheSDConfig.AccessKey = c.AccessKey
+		}
+		if c.SecretKey != "" {
+			c.ElasticacheSDConfig.SecretKey = c.SecretKey
+		}
+		if c.Profile != "" {
+			c.ElasticacheSDConfig.Profile = c.Profile
+		}
+		if c.RoleARN != "" {
+			c.ElasticacheSDConfig.RoleARN = c.RoleARN
+		}
+		if c.ExternalID != "" {
+			c.ElasticacheSDConfig.ExternalID = c.ExternalID
+		}
+		if c.Port != 0 {
+			c.ElasticacheSDConfig.Port = c.Port
+		}
+		if c.RefreshInterval != 0 {
+			c.ElasticacheSDConfig.RefreshInterval = c.RefreshInterval
+		}
+		if c.Clusters != nil {
+			c.ElasticacheSDConfig.Clusters = c.Clusters
 		}
 	case RoleLightsail:
 		if c.LightsailSDConfig == nil {
@@ -193,6 +244,9 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(any) error) error {
 		}
 		if c.RoleARN != "" {
 			c.LightsailSDConfig.RoleARN = c.RoleARN
+		}
+		if c.ExternalID != "" {
+			c.LightsailSDConfig.ExternalID = c.ExternalID
 		}
 		if c.Port != 0 {
 			c.LightsailSDConfig.Port = c.Port
@@ -222,6 +276,9 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(any) error) error {
 		if c.RoleARN != "" {
 			c.MSKSDConfig.RoleARN = c.RoleARN
 		}
+		if c.ExternalID != "" {
+			c.MSKSDConfig.ExternalID = c.ExternalID
+		}
 		if c.Port != 0 {
 			c.MSKSDConfig.Port = c.Port
 		}
@@ -230,6 +287,43 @@ func (c *SDConfig) UnmarshalYAML(unmarshal func(any) error) error {
 		}
 		if c.Clusters != nil {
 			c.MSKSDConfig.Clusters = c.Clusters
+		}
+	case RoleRDS:
+		if c.RDSSDConfig == nil {
+			rdsConfig := DefaultRDSSDConfig
+			c.RDSSDConfig = &rdsConfig
+		}
+		c.RDSSDConfig.HTTPClientConfig = c.HTTPClientConfig
+		c.RDSSDConfig.Region = c.Region
+		if c.Endpoint != "" {
+			c.RDSSDConfig.Endpoint = c.Endpoint
+		}
+		if c.AccessKey != "" {
+			c.RDSSDConfig.AccessKey = c.AccessKey
+		}
+		if c.SecretKey != "" {
+			c.RDSSDConfig.SecretKey = c.SecretKey
+		}
+		if c.Profile != "" {
+			c.RDSSDConfig.Profile = c.Profile
+		}
+		if c.RoleARN != "" {
+			c.RDSSDConfig.RoleARN = c.RoleARN
+		}
+		if c.ExternalID != "" {
+			c.RDSSDConfig.ExternalID = c.ExternalID
+		}
+		if c.Port != 0 {
+			c.RDSSDConfig.Port = c.Port
+		}
+		if c.RefreshInterval != 0 {
+			c.RDSSDConfig.RefreshInterval = c.RefreshInterval
+		}
+		if c.Filters != nil {
+			c.RDSSDConfig.Filters = c.Filters
+		}
+		if c.Clusters != nil {
+			c.RDSSDConfig.Clusters = c.Clusters
 		}
 	default:
 		return fmt.Errorf("unknown AWS SD role %q", c.Role)
@@ -259,14 +353,50 @@ func (c *SDConfig) NewDiscoverer(opts discovery.DiscovererOptions) (discovery.Di
 	case RoleECS:
 		opts.Metrics = &ecsMetrics{refreshMetrics: awsMetrics.refreshMetrics}
 		return NewECSDiscovery(c.ECSSDConfig, opts)
+	case RoleElasticache:
+		opts.Metrics = &elasticacheMetrics{refreshMetrics: awsMetrics.refreshMetrics}
+		return NewElasticacheDiscovery(c.ElasticacheSDConfig, opts)
 	case RoleLightsail:
 		opts.Metrics = &lightsailMetrics{refreshMetrics: awsMetrics.refreshMetrics}
 		return NewLightsailDiscovery(c.LightsailSDConfig, opts)
 	case RoleMSK:
 		opts.Metrics = &mskMetrics{refreshMetrics: awsMetrics.refreshMetrics}
 		return NewMSKDiscovery(c.MSKSDConfig, opts)
+	case RoleRDS:
+		opts.Metrics = &rdsMetrics{refreshMetrics: awsMetrics.refreshMetrics}
+		return NewRDSDiscovery(c.RDSSDConfig, opts)
 	default:
 		return nil, fmt.Errorf("unknown AWS SD role %q", c.Role)
+	}
+}
+
+// SetDirectory joins any relative file paths with dir.
+func (c *SDConfig) SetDirectory(dir string) {
+	switch c.Role {
+	case RoleEC2:
+		if c.EC2SDConfig != nil {
+			c.EC2SDConfig.SetDirectory(dir)
+		}
+	case RoleECS:
+		if c.ECSSDConfig != nil {
+			c.ECSSDConfig.SetDirectory(dir)
+		}
+	case RoleElasticache:
+		if c.ElasticacheSDConfig != nil {
+			c.ElasticacheSDConfig.SetDirectory(dir)
+		}
+	case RoleLightsail:
+		if c.LightsailSDConfig != nil {
+			c.LightsailSDConfig.SetDirectory(dir)
+		}
+	case RoleMSK:
+		if c.MSKSDConfig != nil {
+			c.MSKSDConfig.SetDirectory(dir)
+		}
+	case RoleRDS:
+		if c.RDSSDConfig != nil {
+			c.RDSSDConfig.SetDirectory(dir)
+		}
 	}
 }
 
