@@ -11,7 +11,6 @@ build:
           path: ./cmd/prometheus
         - name: promtool
           path: ./cmd/promtool
-    flags: -mod=mod
     tags:
         all:
             - netgo
