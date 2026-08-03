@@ -115,3 +115,5 @@ require (
 	mvdan.cc/xurls/v2 v2.6.0 // indirect
 	pluginrpc.com/pluginrpc v0.5.0 // indirect
 )
+
+replace github.com/prometheus/prometheus => ../..
