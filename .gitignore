@@ -26,9 +26,10 @@ npm_licenses.tar.bz2
 
 #/vendor
 /.build
-/go.work.sum
+/go.work
 
 /**/node_modules
+.pnpm-store
 
 # Ignore parser debug
 y.output

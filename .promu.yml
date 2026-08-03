@@ -11,7 +11,6 @@ build:
           path: ./cmd/prometheus
         - name: promtool
           path: ./cmd/promtool
-    flags: -mod=mod
     tags:
         all:
             - netgo
@@ -31,9 +30,9 @@ tarball:
         - documentation/examples/prometheus.yml
         - LICENSE
         - NOTICE
-        - npm_licenses.tar.bz2
 crossbuild:
     platforms:
+        - aix
         - darwin
         - dragonfly
         - freebsd
