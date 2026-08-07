@@ -21,8 +21,8 @@ require (
 	github.com/edsrzf/mmap-go v1.0.0
 	github.com/envoyproxy/go-control-plane v0.9.9-0.20210217033140-668b12f5399d
 	github.com/envoyproxy/protoc-gen-validate v0.1.0
-	github.com/go-kit/log v0.1.0
-	github.com/go-logfmt/logfmt v0.5.0
+	github.com/go-kit/log v0.2.1
+	github.com/go-logfmt/logfmt v0.5.1
 	github.com/go-openapi/strfmt v0.20.1
 	github.com/go-zookeeper/zk v1.0.2
 	github.com/gogo/protobuf v1.3.2
@@ -52,7 +52,7 @@ require (
 	github.com/scaleway/scaleway-sdk-go v1.0.0-beta.7.0.20210223165440-c65ae3540d44
 	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749
 	github.com/shurcooL/vfsgen v0.0.0-20200824052919-0d455de96546
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.8.4
 	github.com/uber/jaeger-client-go v2.29.1+incompatible
 	github.com/uber/jaeger-lib v2.4.1+incompatible
 	go.uber.org/atomic v1.8.0
@@ -69,7 +69,7 @@ require (
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	gopkg.in/fsnotify/fsnotify.v1 v1.4.7
 	gopkg.in/yaml.v2 v2.4.0
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/api v0.21.1
 	k8s.io/apimachinery v0.21.1
 	k8s.io/client-go v0.21.1
@@ -78,7 +78,7 @@ require (
 )
 
 replace (
-	k8s.io/klog => github.com/simonpasquier/klog-gokit v0.3.0
+	k8s.io/klog => github.com/simonpasquier/klog-gokit/v3 v3.5.0
 	k8s.io/klog/v2 => github.com/simonpasquier/klog-gokit/v3 v3.0.0
 )
 
