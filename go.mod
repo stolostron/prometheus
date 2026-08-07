@@ -24,7 +24,7 @@ require (
 	github.com/go-kit/log v0.1.0
 	github.com/go-logfmt/logfmt v0.5.0
 	github.com/go-openapi/strfmt v0.20.1
-	github.com/go-zookeeper/zk v1.0.2
+	github.com/go-zookeeper/zk v1.0.4
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/snappy v0.0.3
 	github.com/google/pprof v0.0.0-20210609004039-a478d1d731e9
