@@ -78,7 +78,7 @@ require (
 )
 
 replace (
-	k8s.io/klog => github.com/simonpasquier/klog-gokit v0.3.0
+	k8s.io/klog => github.com/simonpasquier/klog-gokit/v2 v2.1.0
 	k8s.io/klog/v2 => github.com/simonpasquier/klog-gokit/v3 v3.0.0
 )
 
