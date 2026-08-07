@@ -19,7 +19,7 @@ import (
 
 	"github.com/prometheus/common/model"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 func TestTargetGroupStrictJsonUnmarshal(t *testing.T) {
@@ -29,23 +29,23 @@ func TestTargetGroupStrictJsonUnmarshal(t *testing.T) {
 		expectedGroup Group
 	}{
 		{
-			json: `	{"labels": {},"targets": []}`,
+			json:          `	{"labels": {},"targets": []}`,
 			expectedReply: nil,
 			expectedGroup: Group{Targets: []model.LabelSet{}, Labels: model.LabelSet{}},
 		},
 		{
-			json: `	{"labels": {"my":"label"},"targets": ["localhost:9090","localhost:9091"]}`,
+			json:          `	{"labels": {"my":"label"},"targets": ["localhost:9090","localhost:9091"]}`,
 			expectedReply: nil,
 			expectedGroup: Group{Targets: []model.LabelSet{
 				{"__address__": "localhost:9090"},
 				{"__address__": "localhost:9091"}}, Labels: model.LabelSet{"my": "label"}},
 		},
 		{
-			json: `	{"label": {},"targets": []}`,
+			json:          `	{"label": {},"targets": []}`,
 			expectedReply: errors.New("json: unknown field \"label\""),
 		},
 		{
-			json: `	{"labels": {},"target": []}`,
+			json:          `	{"labels": {},"target": []}`,
 			expectedReply: errors.New("json: unknown field \"target\""),
 		},
 	}

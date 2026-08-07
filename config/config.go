@@ -29,7 +29,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/common/config"
 	"github.com/prometheus/common/model"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 
 	"github.com/prometheus/prometheus/discovery"
 	"github.com/prometheus/prometheus/pkg/labels"
