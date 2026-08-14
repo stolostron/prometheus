@@ -1,7 +1,7 @@
 # Copyright Contributors to the Open Cluster Management project
 # Licensed under the Apache License 2.0
 
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.25 AS builder
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_1.26 AS builder
 
 ENV GOWORK=off
 
@@ -41,7 +41,7 @@ CMD        [ "--config.file=/etc/prometheus/prometheus.yml", \
 
 LABEL com.redhat.component="prometheus" \
   name="rhacm2/prometheus-rhel9" \
-  cpe="cpe:/a:redhat:acm:5.1::el9" \
+  cpe="cpe:/a:redhat:acm:5.0::el9" \
   summary="prometheus" \
   io.openshift.expose-services="" \
   io.openshift.tags="data,images" \
