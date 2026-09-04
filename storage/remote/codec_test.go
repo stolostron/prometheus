@@ -16,7 +16,6 @@ package remote
 import (
 	"bytes"
 	"fmt"
-	"io"
 	"net/http"
 	"sync"
 	"testing"
