@@ -18,7 +18,7 @@ require (
 	github.com/digitalocean/godo v1.62.0
 	github.com/docker/docker v20.10.7+incompatible
 	github.com/docker/go-connections v0.4.0 // indirect
-	github.com/edsrzf/mmap-go v1.0.0
+	github.com/edsrzf/mmap-go v1.2.0
 	github.com/envoyproxy/go-control-plane v0.9.9-0.20210217033140-668b12f5399d
 	github.com/envoyproxy/protoc-gen-validate v0.1.0
 	github.com/go-kit/log v0.1.0
@@ -60,7 +60,7 @@ require (
 	golang.org/x/net v0.0.0-20210610132358-84b48f89b13b
 	golang.org/x/oauth2 v0.0.0-20210514164344-f6687ab2804c
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1
+	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e
 	golang.org/x/time v0.0.0-20210611083556-38a9dc6acbc6
 	golang.org/x/tools v0.1.3
 	google.golang.org/api v0.48.0
