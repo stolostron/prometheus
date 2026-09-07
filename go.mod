@@ -32,7 +32,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/hashicorp/consul/api v1.8.1
 	github.com/hetznercloud/hcloud-go v1.26.2
-	github.com/influxdata/influxdb v1.9.2
+	github.com/influxdata/influxdb/v2 v2.9.1
 	github.com/json-iterator/go v1.1.11
 	github.com/linode/linodego v0.28.5
 	github.com/miekg/dns v1.1.42
