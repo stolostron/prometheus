@@ -92,23 +92,6 @@ jobs:
       - uses: prometheus/promci-setup@5af30ba8c199a91d6c04ebdc3c48e630e355f62d # v0.1.0
       - run: go test -v --race ./cmd/prometheus/ --test.version-upgrade=true --test.lts-version=${{ matrix.lts_version }} -run TestVersionUpgrade
 
-  test_go_oldest:
-    name: Go tests with previous Go version
-    runs-on: ubuntu-latest
-    env:
-      # Enforce the Go version.
-      GOTOOLCHAIN: local
-    container:
-      # The go version in this image should be N-1 wrt test_go.
-      image: quay.io/prometheus/golang-builder:1.25-base
-    steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          persist-credentials: false
-      - run: make build
-      # Don't run NPM build; don't run race-detector.
-      - run: make test GO_ONLY=1 test-flags=""
-
   test_ui:
     name: UI tests
     runs-on: ubuntu-latest
