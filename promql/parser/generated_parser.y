@@ -463,7 +463,7 @@ matrix_selector : expr LEFT_BRACKET duration RIGHT_BRACKET
 
                         if errMsg != ""{
                                 errRange := mergeRanges(&$2, &$4)
-                                yylex.(*parser).addParseErrf(errRange, errMsg)
+                                yylex.(*parser).addParseErrf(errRange, "%s", errMsg)
                         }
 
                         $$ = &MatrixSelector{
