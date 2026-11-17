@@ -8,13 +8,13 @@ ENV GOWORK=off
 WORKDIR /workspace
 COPY . .
 
-RUN cd promu && go build -mod=readonly -o /cachi2/output/deps/gomod/bin/promu
+RUN cd promu && CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime go build -mod=readonly -o /cachi2/output/deps/gomod/bin/promu
 
 WORKDIR /workspace
 # adding the cgo flag here to not break the architecture CI builds
 RUN go mod vendor && \
   export PREBUILT_ASSETS_STATIC_DIR=web/ui && \
-  /cachi2/output/deps/gomod/bin/promu build -v --cgo --prefix ./
+  CGO_ENABLED=1 GOEXPERIMENT=strictfipsruntime /cachi2/output/deps/gomod/bin/promu build -v --cgo --prefix ./
 
 FROM registry.redhat.io/ubi9/ubi-minimal-pqc:latest
 
