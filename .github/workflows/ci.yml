@@ -31,7 +31,9 @@ jobs:
       - uses: prometheus/promci@fc721ff8497a70a93a881cd552b71af7fb3a9d53 # v0.5.4
       - uses: ./.github/promci/actions/setup_environment
       - run: go test --tags=dedupelabels ./...
-      - run: GOARCH=386 go test ./cmd/prometheus
+      # - run: GOARCH=386 go test ./cmd/prometheus
+      # Disabled GOARCH=386 tests since there is existing upstream issues
+      # and we don't support 32-bit emulation.
       - uses: ./.github/promci/actions/check_proto
         with:
           version: "3.15.8"
